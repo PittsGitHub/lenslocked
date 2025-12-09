@@ -58,6 +58,7 @@ func contactHandler(w http.ResponseWriter, r *http.Request) {
 
 func notFoundHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	http.Error(w, "Page not found", http.StatusNotFound)
 	host := chi.URLParam(r, "host")
 	println(host)
 	w.WriteHeader(http.StatusNotFound)
