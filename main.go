@@ -2,10 +2,10 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"log"
 	"net/http"
 
+	"github.com/PittsGitHub/lenslocked/views"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 )
@@ -62,20 +62,11 @@ func main() {
 	http.ListenAndServe(":3000", r)
 }
 
-func executeTemplate(w http.ResponseWriter, fp string, data any) {
-	w.Header().Set("Content-Type", "text/html; charset=utf-8")
-
-	tpl, err := template.ParseFiles(fp)
+func executeTemplate(w http.ResponseWriter, filepath string, data any) {
+	template, err := views.Parse(filepath)
 	if err != nil {
-		log.Printf("parsing template: %v", err)
-		http.Error(w, "there was an error parsing the template", http.StatusInternalServerError)
+		log.Print("Failed to create template")
 		return
 	}
-
-	err = tpl.Execute(w, data)
-	if err != nil {
-		log.Printf("executing template: %v", err)
-		http.Error(w, "there was an error executing the template", http.StatusInternalServerError)
-		return
-	}
+	template.Execute(w, data)
 }
