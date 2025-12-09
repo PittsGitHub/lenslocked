@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User: {{ .Name }}</title>
+</head>
+<body>
+    <h1>Hello, {{ .Name }}!</h1>
+
+    <p>Age: {{ .Age }}</p>
+
+    {{/* Simple if/else example */}}
+    {{if ge .Age 30}}
+        <p>You are a wise adventurer.</p>
+    {{else}}
+        <p>You are a young adventurer.</p>
+    {{end}}
+
+    <h2>Dog</h2>
+    <ul>
+        <li>Name: {{ .Dog.Name }}</li>
+        <li>Breed: {{ .Dog.Breed }}</li>
+    </ul>
+
+    {{/* Another if example checking presence of Dog name */}}
+    {{if .Dog.Name}}
+        <p>{{ .Name }}'s dog is {{ .Dog.Name }}.</p>
+    {{else}}
+        <p>{{ .Name }} does not have a named dog yet.</p>
+    {{end}}
+</body>
+</html>
