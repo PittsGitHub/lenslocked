@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"html/template"
 	"net/http"
 
 	"github.com/PittsGitHub/lenslocked/views"
@@ -12,10 +13,15 @@ func StaticHandler(tpl views.Template) http.HandlerFunc {
 	}
 }
 
+type QandA struct {
+	Question string
+	Answer   string
+}
+
 func FAQ(tpl views.Template) http.HandlerFunc {
 	questions := []struct {
 		Question string
-		Answer   string
+		Answer   template.HTML
 	}{
 		{
 			Question: "Who is Bilbo?",
