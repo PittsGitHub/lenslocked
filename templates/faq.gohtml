@@ -1,25 +1,32 @@
-	<h1>FAQ</h1>
-		<p>Frequently asked questions about Bilbo.</p>
-		<p/>
-		<ul>
-			<li>
-				<strong>Who is Bilbo?</strong><br>
-				Bilbo is a small scruffy black haired jack-a-poo with a knack for getting into (and out of) trouble.
-			</li>
-			<p/>
-			<li>
-				<strong>What does Bilbo do all day?</strong><br>
-				Mostly minds his own business, snacks frequently, and occasionally goes on unexpected walks.
-			</li>
-			<p/>
-			<li>
-				<strong>Does Bilbo like visitors?</strong><br>
-				Yes. Other dogs. People. Even cats.
-			</li>
-			<p/>
-			<li>
-				<strong>How can I learn more about Bilbo?</strong><br>
-				You can email Bilbo at 
-				<a href="mailto:bilbo@borks.alot">bilbo@borks.alot</a>.
-			</li>
-		</ul>
+<h1>FAQ</h1>
+<p>Frequently asked questions about Bilbo.</p>
+<p />
+<ul>
+  <li>
+    <strong>What does Bilbo do all day?</strong><br />
+    Mostly minds his own business, snacks frequently, and occasionally goes on
+    unexpected walks.
+  </li>
+  <p />
+  <li>
+    <strong>Does Bilbo like visitors?</strong><br />
+    Yes. Other dogs. People. Even cats.
+  </li>
+  <p />
+  <li>
+    <strong>How can I learn more about Bilbo?</strong><br />
+    You can email Bilbo at
+    <a href="mailto:bilbo@borks.alot">bilbo@borks.alot</a>.
+  </li>
+</ul>
+
+<pre>{{ . }}</pre>
+
+{{ define "qa" }}
+  <li>
+    <strong>Who is Bilbo?</strong><br />
+    Bilbo is a small scruffy black haired jack-a-poo with a knack for getting
+    into (and out of) trouble.
+  </li>
+  <p />
+{{ end }}
