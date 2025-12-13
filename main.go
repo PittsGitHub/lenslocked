@@ -2,12 +2,12 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"net/http"
 
+	"github.com/PittsGitHub/lenslocked/controllers"
+	"github.com/PittsGitHub/lenslocked/templates"
 	"github.com/PittsGitHub/lenslocked/views"
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 )
 
 type User struct {
@@ -21,52 +21,24 @@ type Dog struct {
 	Breed string
 }
 
-func homeHandler(w http.ResponseWriter, r *http.Request) {
-	executeTemplate(w, "templates/home.gohtml", nil)
-}
-
-func faqHandler(w http.ResponseWriter, r *http.Request) {
-	executeTemplate(w, "templates/faq.gohtml", nil)
-}
-
-func contactHandler(w http.ResponseWriter, r *http.Request) {
-	executeTemplate(w, "templates/contact.gohtml", nil)
-}
-
-func ownerHandler(w http.ResponseWriter, r *http.Request) {
-	Dan := User{
-		Name: "Dan",
-		Age:  30,
-		Dog: Dog{
-			Name:  "Bolbus",
-			Breed: "Hairy Borker 9000",
-		},
-	}
-	executeTemplate(w, "templates/owner.gohtml", Dan)
-}
-
-func notFoundHandler(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotFound)
-	executeTemplate(w, "templates/notfound.gohtml", nil)
-}
-
 func main() {
-
 	r := chi.NewRouter()
-	r.With(middleware.Logger).Get("/", homeHandler)
-	r.Get("/contact", contactHandler)
-	r.Get("/faq", faqHandler)
-	r.Get("/owner", ownerHandler)
-	r.NotFound(notFoundHandler)
+
+	r.Get("/", controllers.StaticHandler(views.Must(
+		views.ParseFS(templates.FS, "home.gohtml"))))
+
+	r.Get("/contact", controllers.StaticHandler(views.Must(
+		views.ParseFS(templates.FS, "contact.gohtml"))))
+
+	r.Get("/faq", controllers.StaticHandler(views.Must(
+		views.ParseFS(templates.FS, "faq.gohtml"))))
+
+	r.Get("/owner", controllers.StaticHandler(views.Must(
+		views.ParseFS(templates.FS, "owner.gohtml"))))
+
+	r.NotFound(controllers.StaticHandler(views.Must(
+		views.ParseFS(templates.FS, "notfound.gohtml"))))
+
 	fmt.Println("Starting server on :3000...")
 	http.ListenAndServe(":3000", r)
-}
-
-func executeTemplate(w http.ResponseWriter, filepath string, data any) {
-	template, err := views.Parse(filepath)
-	if err != nil {
-		log.Print("Failed to create template")
-		return
-	}
-	template.Execute(w, data)
 }
