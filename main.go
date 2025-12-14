@@ -25,7 +25,7 @@ func main() {
 	r := chi.NewRouter()
 
 	r.Get("/", controllers.StaticHandler(views.Must(
-		views.ParseFS(templates.FS, "home.gohtml"))))
+		views.ParseFS(templates.FS, "home.gohtml", "layout-parts.gohtml"))))
 
 	r.Get("/contact", controllers.StaticHandler(views.Must(
 		views.ParseFS(templates.FS, "contact.gohtml"))))
