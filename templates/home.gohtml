@@ -1,5 +1,8 @@
-{{ template "header" }}
+{{ template "header" . }}
 <h1>Welcome to my awesome site!</h1>
+
+<a href="#" class="button">This is my button</a>
+{{ template "footer" . }}
 
 {{ template "lorem-ipsum" }}
 
@@ -14,4 +17,3 @@
     laborum."
   </p>
 {{ end }}
-{{ template "footer" }}
