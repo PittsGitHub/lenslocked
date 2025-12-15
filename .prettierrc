@@ -1,3 +1,8 @@
 {
-  "plugins": ["prettier-plugin-go-template"]
+  "plugins": ["prettier-plugin-go-template"],
+  "printWidth": 80,
+  "singleAttributePerLine": true,
+  "overrides": [
+    { "files": ["*.gohtml"], "options": { "parser": "go-template" } }
+  ]
 }
