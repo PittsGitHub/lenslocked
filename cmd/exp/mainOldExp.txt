@@ -1,4 +1,4 @@
-package main
+package experi
 
 import (
 	"fmt"
@@ -12,7 +12,7 @@ type User struct {
 	Age  int
 }
 
-func main() {
+func mains() {
 
 	fmt.Println("Experimental Main")
 	t, err := template.ParseFiles("hello.gohtml")
