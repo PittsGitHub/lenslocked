@@ -23,7 +23,7 @@ func (cfg PostgresConfig) String() string {
 func DefaultPostgresConfig() PostgresConfig {
 	return PostgresConfig{
 		Host:     "localhost",
-		Port:     "5432",
+		Port:     "5555",
 		User:     "baloo",
 		Password: "junglebook",
 		Database: "lenslocked",
