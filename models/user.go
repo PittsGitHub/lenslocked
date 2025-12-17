@@ -18,7 +18,6 @@ type UserService struct {
 }
 
 func (us *UserService) Create(email, password string) (*User, error) {
-	// TODO: Implement this
 	email = strings.ToLower(email)
 
 	hashedBytes, err := bcrypt.GenerateFromPassword(

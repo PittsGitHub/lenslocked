@@ -12,26 +12,35 @@ import (
 )
 
 func main() {
+	r := chi.NewRouter()
+
 	// Setup a database connection
-	cfg := models.DefaultPostgresConfig()
-	db, err := models.Open(cfg)
+	pgCFG := models.DefaultPostgresConfig()
+	db, err := models.Open(pgCFG)
 	if err != nil {
 		panic(err)
 	}
 	defer db.Close()
 
 	// Setup our model services
-	userService := models.UserService{
+	userServices := models.UserService{
 		DB: db,
 	}
 
 	// Setup our controllers
-	usersC := controllers.Users{
-		UserService: &userService,
+	usersController := controllers.Users{
+		UserService: &userServices,
 	}
 
-	r := chi.NewRouter()
+	// User Scoped Pages
+	usersController.Templates.New = views.Must(views.ParseFS(
+		templates.FS, "signup.gohtml", "tailwind.gohtml"))
 
+	r.Get("/signup", usersController.New)
+
+	r.Post("/signup", usersController.Create)
+
+	// User Agnostic Pages
 	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(
 		templates.FS,
 		"home.gohtml", "tailwind.gohtml",
@@ -46,13 +55,6 @@ func main() {
 	r.NotFound(func(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
-
-	usersC.Templates.New = views.Must(views.ParseFS(
-		templates.FS, "signup.gohtml", "tailwind.gohtml"))
-
-	r.Get("/signup", usersC.New)
-
-	r.Post("/signup", usersC.Create)
 
 	fmt.Println("Starting the server on :3000...")
 	http.ListenAndServe(":3000", r)
