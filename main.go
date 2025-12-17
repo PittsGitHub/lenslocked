@@ -5,12 +5,31 @@ import (
 	"net/http"
 
 	"github.com/PittsGitHub/lenslocked/controllers"
+	"github.com/PittsGitHub/lenslocked/models"
 	"github.com/PittsGitHub/lenslocked/templates"
 	"github.com/PittsGitHub/lenslocked/views"
 	"github.com/go-chi/chi/v5"
 )
 
 func main() {
+	// Setup a database connection
+	cfg := models.DefaultPostgresConfig()
+	db, err := models.Open(cfg)
+	if err != nil {
+		panic(err)
+	}
+	defer db.Close()
+
+	// Setup our model services
+	userService := models.UserService{
+		DB: db,
+	}
+
+	// Setup our controllers
+	usersC := controllers.Users{
+		UserService: &userService,
+	}
+
 	r := chi.NewRouter()
 
 	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(
@@ -28,7 +47,6 @@ func main() {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
 
-	var usersC controllers.Users
 	usersC.Templates.New = views.Must(views.ParseFS(
 		templates.FS, "signup.gohtml", "tailwind.gohtml"))
 
