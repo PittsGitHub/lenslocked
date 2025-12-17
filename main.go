@@ -43,6 +43,8 @@ func main() {
 	r.Get("/signin", usersC.SignIn)
 	r.Post("/signin", usersC.ProcessSignIn)
 
+	r.Get("/users/me", usersC.CurrentUser)
+
 	// User Agnostic Pages
 	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(
 		templates.FS,
