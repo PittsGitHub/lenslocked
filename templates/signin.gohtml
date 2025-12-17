@@ -1,11 +1,11 @@
 {{ template "header" . }}
 <div class="py-12 flex justify-center">
   <div class="px-8 py-8 bg-white rounded shadow">
-    <h1 class="pt-4 pb-8 text-center text-3xl font-bold text-grey-900">
-      Sign Up to Share
+    <h1 class="pt-4 pb-8 text-center text-3xl font-bold text-gray-900">
+      Welcome back!
     </h1>
     <form
-      action="/signup"
+      action="/signin"
       method="post"
     >
       <div class="py-2">
@@ -23,7 +23,7 @@
           required
           autocomplete="email"
           class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500
-      text-gray-800 rounded"
+            text-gray-800 rounded"
           value="{{ .Email }}"
           {{ if not .Email }}autofocus{{ end }}
         />
@@ -42,28 +42,25 @@
           placeholder="Password"
           required
           class="w-full px-3 py-2 border border-gray-300 placeholder-gray-500
-      text-gray-800 rounded"
-          value="{{ .Password }}"
-          {{ if and .Email (not .Password) }}autofocus{{ end }}
+            text-gray-800 rounded"
+          {{ if .Email }}autofocus{{ end }}
         />
       </div>
       <div class="py-4">
         <button
-          type="submit"
-          class="w-full py-4 px-2 bg-indigo-600 hover:bg-indigo-700
-    text-white rounded font-bold text-lg"
-          {{ if and .Email .Password }}autofocus{{ end }}
+          class="w-full py-4 px-2 bg-green-600 hover:bg-green-500
+          text-white rounded font-bold text-lg"
         >
-          Sign up
+          Sign in
         </button>
       </div>
       <div class="py-2 w-full flex justify-between">
         <p class="text-xs text-gray-500">
-          Already have an account?
+          Need an account?
           <a
-            href="/signin"
+            href="/signup"
             class="underline"
-            >Sign in</a
+            >Sign up</a
           >
         </p>
         <p class="text-xs text-gray-500">

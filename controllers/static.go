@@ -6,20 +6,20 @@ import (
 )
 
 type Static struct {
-	Template Template
+	Template TemplateRenderer
 }
 
 func (static Static) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	static.Template.Execute(w, nil)
 }
 
-func StaticHandler(tpl Template) http.HandlerFunc {
+func StaticHandler(tpl TemplateRenderer) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tpl.Execute(w, nil)
 	}
 }
 
-func FAQ(tpl Template) http.HandlerFunc {
+func FAQ(tpl TemplateRenderer) http.HandlerFunc {
 	questions := []struct {
 		Question string
 		Answer   template.HTML

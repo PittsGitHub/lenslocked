@@ -28,17 +28,20 @@ func main() {
 	}
 
 	// Setup our controllers
-	usersController := controllers.Users{
+	usersC := controllers.Users{
 		UserService: &userServices,
 	}
 
 	// User Scoped Pages
-	usersController.Templates.New = views.Must(views.ParseFS(
+	usersC.Templates.New = views.Must(views.ParseFS(
 		templates.FS, "signup.gohtml", "tailwind.gohtml"))
+	r.Get("/signup", usersC.New)
+	r.Post("/signup", usersC.Create)
 
-	r.Get("/signup", usersController.New)
-
-	r.Post("/signup", usersController.Create)
+	usersC.Templates.SignIn = views.Must(views.ParseFS(
+		templates.FS, "signin.gohtml", "tailwind.gohtml"))
+	r.Get("/signin", usersC.SignIn)
+	r.Post("/signin", usersC.ProcessSignIn)
 
 	// User Agnostic Pages
 	r.Get("/", controllers.StaticHandler(views.Must(views.ParseFS(
