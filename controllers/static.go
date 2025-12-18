@@ -9,13 +9,9 @@ type Static struct {
 	Template TemplateRenderer
 }
 
-func (static Static) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	static.Template.Execute(w, nil)
-}
-
 func StaticHandler(tpl TemplateRenderer) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		tpl.Execute(w, nil)
+		tpl.Execute(w, r, nil)
 	}
 }
 
@@ -42,6 +38,6 @@ func FAQ(tpl TemplateRenderer) http.HandlerFunc {
 		},
 	}
 	return func(w http.ResponseWriter, r *http.Request) {
-		tpl.Execute(w, questions)
+		tpl.Execute(w, r, questions)
 	}
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/PittsGitHub/lenslocked/templates"
 	"github.com/PittsGitHub/lenslocked/views"
 	"github.com/go-chi/chi/v5"
+	"github.com/gorilla/csrf"
 )
 
 func main() {
@@ -61,6 +62,17 @@ func main() {
 		http.Error(w, "Page not found", http.StatusNotFound)
 	})
 
+	csrfKey := "gFvi45R4fy5xNBlnEeZtQbfAVCYEIAUX"
+	csrfMw := csrf.Protect(
+		[]byte(csrfKey),
+		// TODO: Fix this before deploying
+		csrf.Secure(false),
+		// Note: This is required if using v1.7.3+
+		// due to a breaking change made to fix a
+		// security issue.
+		csrf.TrustedOrigins([]string{"localhost:3000"}),
+	)
+
 	fmt.Println("Starting the server on :3000...")
-	http.ListenAndServe(":3000", r)
+	http.ListenAndServe(":3000", csrfMw(r))
 }

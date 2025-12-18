@@ -8,6 +8,9 @@
       action="/signin"
       method="post"
     >
+      <div class="hidden">
+        {{ csrfField }}
+      </div>
       <div class="py-2">
         <label
           for="email"
