@@ -74,5 +74,19 @@ func main() {
 	)
 
 	fmt.Println("Starting the server on :3000...")
-	http.ListenAndServe(":3000", csrfMw(r))
+
+	handler := logRequests(r) // your logger first
+	handler = csrfMw(handler) // then CSRF protection
+
+	http.ListenAndServe(":3000", handler)
+}
+
+func logRequests(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// RemoteAddr is usually "IP:port"
+		fmt.Printf("REQ ip=%s method=%s path=%s ua=%q\n",
+			r.RemoteAddr, r.Method, r.URL.Path, r.UserAgent(),
+		)
+		next.ServeHTTP(w, r)
+	})
 }
