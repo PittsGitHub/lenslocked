@@ -27,10 +27,14 @@ func main() {
 	userServices := models.UserService{
 		DB: db,
 	}
+	sessionService := models.SessionService{
+		DB: db,
+	}
 
 	// Setup our controllers
 	usersC := controllers.Users{
-		UserService: &userServices,
+		UserService:    &userServices,
+		SessionService: &sessionService,
 	}
 
 	// User Scoped Pages
@@ -43,6 +47,7 @@ func main() {
 		templates.FS, "signin.gohtml", "tailwind.gohtml"))
 	r.Get("/signin", usersC.SignIn)
 	r.Post("/signin", usersC.ProcessSignIn)
+	r.Post("/signout", usersC.ProcessSignOut)
 
 	r.Get("/users/me", usersC.CurrentUser)
 
